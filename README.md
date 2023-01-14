@@ -1,2 +1,4 @@
-# 12-Days
- YouTube Project Series
+12 Days of Christmas: YouTube Porject Series
+====================
+
+Channel: https://www.youtube.com/@durk1224
