@@ -10,16 +10,14 @@ pg.display.set_caption("The Story of Krampus")
 clock = pg.time.Clock()
 font = pg.font.Font("assets/font/vhs.ttf", 28)
 
-title1_surf = font.render("THE STORY", True, "white")
-title1_rect = title1_surf.get_rect(
-    center=(WIN_WIDTH / 2, WIN_HEIGHT / 2 - title1_surf.get_height())
-)
-title2_surf = font.render("OF", True, "white")
-title2_rect = title2_surf.get_rect(center=(WIN_WIDTH / 2, WIN_HEIGHT / 2))
-title3_surf = font.render("KRAMPUS", True, "red")
-title3_rect = title3_surf.get_rect(
-    center=(WIN_WIDTH / 2, WIN_HEIGHT / 2 + title3_surf.get_height())
-)
+title_lines = [["THE STORY", "white", -25],
+              ["OF", "white", 0],
+              ["KRAMPUS", "red", 25]]
+text_list = []
+for line in title_lines:
+    title_surf = font.render(line[0], True, line[1])
+    title_rect = title_surf.get_rect(center=(WIN_WIDTH / 2, WIN_HEIGHT / 2 + line[2]))
+    text_list.append([title_surf, title_rect])
 
 scene = Scene()
 
@@ -31,12 +29,6 @@ def get_active(events):
     return True
 
 
-def show_title():
-    screen.blit(title1_surf, title1_rect)
-    screen.blit(title2_surf, title2_rect)
-    screen.blit(title3_surf, title3_rect)
-
-
 def main():
     menu = True
     run = True
@@ -44,7 +36,7 @@ def main():
         dt = clock.tick(30) / 1000
         events = pg.event.get()
         for ev in events:
-            if ev.type == pg.MOUSEBUTTONDOWN and ev.button == 1:
+            if ev.type == pg.KEYDOWN and ev.key == pg.K_RETURN:
                 menu = False
         run = get_active(events)
         if scene.dead:
@@ -53,7 +45,8 @@ def main():
         screen.fill((10, 10, 10))
 
         if menu:
-            show_title()
+            for txt in text_list:
+                screen.blit(txt[0], txt[1])
         else:
             scene.update(dt)
             scene.draw(screen)
